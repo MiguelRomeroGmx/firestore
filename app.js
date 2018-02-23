@@ -48,7 +48,7 @@ db.collection("users").onSnapshot((querySnapshot) => {
             <td>${doc.data().last}</td>
             <td>${doc.data().born}</td>
             <td><button class="btn btn-danger" onclick="eliminar('${doc.id}')">Eliminar</button></td>
-            <td><button class="btn btn-warning">Editar</button></td>
+            <td><button class="btn btn-warning" onclick="editar('${doc.id}','${doc.data().first}','${doc.data().last}','${doc.data().born}')">Editar</button></td>
         </tr>
         `
 
@@ -63,7 +63,47 @@ function eliminar(id) {
 }).catch(function(error) {
     console.error("Error removing document: ", error);
 });
-  
+
+}
+
+
+// Editar datos
+
+function editar(id,nombre,apellido,fecha) {
+
+document.getElementById('nombre').value = nombre;
+document.getElementById('apellido').value = apellido;
+document.getElementById('fecha').value = fecha;
+var boton = document.getElementById('boton');
+boton.innerHTML = 'Editar';
+
+boton.onclick = function () {
+
+var washingtonRef = db.collection("users").doc(id);
+
+    var nombre = document.getElementById('nombre').value;
+    var apellido = document.getElementById('apellido').value;
+    var fecha = document.getElementById('fecha').value;
+
+
+return washingtonRef.update({
+    first: nombre,
+    last: apellido,
+    born: fecha
+})
+.then(function() {
+    console.log("Document successfully updated!");
+    boton.innerHTML = 'Guardar';
+    document.getElementById('nombre').value ="";
+    document.getElementById('apellido').value ="";
+    document.getElementById('fecha').value ="";
+})
+.catch(function(error) {
+    // The document probably doesn't exist.
+    console.error("Error updating document: ", error);
+});
+
+}
 
 }
 
