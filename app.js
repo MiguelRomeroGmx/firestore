@@ -47,8 +47,23 @@ db.collection("users").onSnapshot((querySnapshot) => {
             <td>${doc.data().first}</td>
             <td>${doc.data().last}</td>
             <td>${doc.data().born}</td>
+            <td><button class="btn btn-danger" onclick="eliminar('${doc.id}')">Eliminar</button></td>
+            <td><button class="btn btn-warning">Editar</button></td>
         </tr>
         `
 
     });
 });
+
+
+//Borrar datos
+function eliminar(id) {
+  db.collection("users").doc(id).delete().then(function() {
+    console.log("Document successfully deleted!");
+}).catch(function(error) {
+    console.error("Error removing document: ", error);
+});
+  
+
+}
+
